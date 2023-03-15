@@ -1,6 +1,4 @@
 const { Client, GatewayIntentBits, Emoji } = require('discord.js');
-const Channel = require("./settings.json")
-
 
 // -- Regex -- //
 const emojiRegex = require('emoji-regex');
@@ -65,14 +63,14 @@ const client = new Client({
 
 
 client.on('messageUpdate', async (oldMessage, newMessage) => {
-    if (newMessage.channelId != Channel.channel_id) return
+    if (newMessage.channelId != process.env.CHANNEL_ID) return
     if (newMessage.author.bot) return false;
         
     onlyEmoji(newMessage);
 });
 
 client.on('messageCreate', async (message) => {
-    if (message.channelId != Channel.channel_id) return
+    if (message.channelId != process.env.CHANNEL_ID) return
     if (message.author.bot) return false;   
     
     onlyEmoji(message);
@@ -80,7 +78,7 @@ client.on('messageCreate', async (message) => {
 
 client.once("ready", () => {
     console.log("Connected !")
-    console.log(`Channel: ${client.channels.cache.get(Channel.channel_id).name}`)
+    console.log(`Channel: ${client.channels.cache.get(process.env.CHANNEL_ID).name}`)
 })
 
 client.login(process.env.DISCORD_CLIENT_TOKEN);
